@@ -93,3 +93,13 @@ df_usuario["share_endurance"] = (
 df_usuario["user_id"].nunique() 
 df_usuario.shape[0]
 df_usuario["user_id"].duplicated().sum() 
+
+# PUNTO 3 - ANÁLISIS DE VALORES ATÍPICOS
+
+df_usuario["age"].plot(kind="box")
+plt.title("Diagrama de cajas y bigotes de age")
+plt.show() # Este muestra el diagrama de bigotes y cajas que creamos para age
+
+df_usuario["mean_rating"].plot(kind="box")
+plt.title("Diagrama de cajas y bigotes de mean_rating")
+plt.show() # Este muestra el diagrama de bigotes y cajas que creamos para mean_rating
