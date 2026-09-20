@@ -103,3 +103,18 @@ plt.show() # Este muestra el diagrama de bigotes y cajas que creamos para age
 df_usuario["mean_rating"].plot(kind="box")
 plt.title("Diagrama de cajas y bigotes de mean_rating")
 plt.show() # Este muestra el diagrama de bigotes y cajas que creamos para mean_rating
+
+#Código para la pregunta 4
+#Cálculo de la correlación de pearson entre las variables mean_rating y share_general_fitness
+
+Correlacion_var = df_usuario["n_bodyparts"].corr(df_usuario["n_target_muscles"])
+print (Correlacion_var) #Da aproximadamente 0,58
+
+#Código para la pregunta 6
+# Cálculo de correlación entre n_equipment y las dos variables anteriores
+
+Correlacion_equip1 = df_usuario["n_bodyparts"].corr(df_usuario["n_equipment"])
+print (Correlacion_equip1)
+
+Correlacion_equip2 = df_usuario["n_target_muscles"].corr(df_usuario["n_equipment"])
+print (Correlacion_equip2)
