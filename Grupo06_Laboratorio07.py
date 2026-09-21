@@ -88,6 +88,55 @@ df_usuario["share_endurance"] = (
 df_usuario["user_id"].nunique() 
 df_usuario.shape[0]
 df_usuario["user_id"].duplicated().sum() 
+
+
+print("""Punto 1 y 2 correlacion""")
+correlaciones = {
+    "Partes cuerpo vs músculos trabajados":
+        df_usuario["n_bodyparts"].corr(
+            df_usuario["n_target_muscles"]
+        ),
+
+    "Rating promedio vs fitness general":
+        df_usuario["mean_rating"].corr(
+            df_usuario["share_general_fitness"]
+        ),
+
+    "Fitness general vs ganancia muscular":
+        df_usuario["share_general_fitness"].corr(
+            df_usuario["share_muscle_gain"]
+        )
+}
+
+for nombre, valor in correlaciones.items():
+    print(f"{nombre}: {valor:.3f}")
+    
+
+# PUNTO 3 - ANÁLISIS DE VALORES ATÍPICOS
+
+df_usuario["age"].plot(kind="box")
+plt.title("Diagrama de cajas y bigotes de age")
+plt.show() # Este muestra el diagrama de bigotes y cajas que creamos para age
+
+df_usuario["mean_rating"].plot(kind="box")
+plt.title("Diagrama de cajas y bigotes de mean_rating")
+plt.show() # Este muestra el diagrama de bigotes y cajas que creamos para mean_rating
+
+#Código para la pregunta 4
+#Cálculo de la correlación de pearson entre las variables mean_rating y share_general_fitness
+
+Correlacion_var = df_usuario["n_bodyparts"].corr(df_usuario["n_target_muscles"])
+print (Correlacion_var) #Da aproximadamente 0,58
+
+#Código para la pregunta 6
+# Cálculo de correlación entre n_equipment y las dos variables anteriores
+
+Correlacion_equip1 = df_usuario["n_bodyparts"].corr(df_usuario["n_equipment"])
+print (Correlacion_equip1)
+
+Correlacion_equip2 = df_usuario["n_target_muscles"].corr(df_usuario["n_equipment"])
+print (Correlacion_equip2)
+
 df_usuario["share_fat_loss"] = (
     df_usuario["n_goal_fat_loss"]
     / df_usuario["n_records"]
@@ -102,61 +151,4 @@ df_usuario["share_muscle_gain"] = (
     df_usuario["n_goal_muscle_gain"]
     / df_usuario["n_records"]
 )
-df_usuario = df_usuario.rename(columns={
 
-    "user_id": "usuario",
-    "age": "edad",
-
-    "n_records": "num_entrenamientos",
-    "n_exercises": "num_ejercicios_distintos",
-
-    "n_bodyparts": "num_partes_cuerpo",
-    "n_equipment": "num_tipos_equipo",
-    "n_target_muscles": "num_musculos_trabajados",
-
-    "mean_rating": "rating_promedio",
-    "median_rating": "rating_mediana",
-    "sd_rating": "variabilidad_rating",
-
-    "n_goal_general_fitness": "veces_fitness_general",
-    "n_goal_endurance": "veces_resistencia",
-    "n_goal_fat_loss": "veces_perdida_grasa",
-    "n_goal_mobility": "veces_movilidad",
-    "n_goal_muscle_gain": "veces_ganancia_muscular",
-
-    "share_general_fitness": "porc_fitness_general",
-    "share_endurance": "porc_resistencia",
-    "share_fat_loss": "porc_perdida_grasa",
-    "share_mobility": "porc_movilidad",
-    "share_muscle_gain": "porc_ganancia_muscular"
-})
-
-
-print("""Punto 1 y 2 correlacion""")
-correlaciones = {
-    "Partes cuerpo vs músculos trabajados":
-        df_usuario["num_partes_cuerpo"].corr(
-            df_usuario["num_musculos_trabajados"]
-        ),
-
-    "Rating promedio vs fitness general":
-        df_usuario["rating_promedio"].corr(
-            df_usuario["porc_fitness_general"]
-        ),
-
-    "Fitness general vs ganancia muscular":
-        df_usuario["porc_fitness_general"].corr(
-            df_usuario["porc_ganancia_muscular"]
-        )
-}
-
-for nombre, valor in correlaciones.items():
-    print(f"{nombre}: {valor:.3f}")
-    
-corr= df_usuario.select_dtypes(include=np.number).corr()
-plt.figure(figsize=(12,8))
-plt.imshow(corr, cmap="coolwarm")
-plt.colorbar()
-plt.xticks(range(len(corr.columns)), corr.columns, rotation=90)
-plt.yticks(range(len(corr.columns)), corr.columns)
-plt.show()
